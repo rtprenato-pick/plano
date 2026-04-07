@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Plano de Negócio | Mobile</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #eef2f7;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        /* Container principal adaptado para mobile */
+        .main-container {
+            max-width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            padding: 18px 16px 28px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin: 0 0 4px;
+            color: #0a2b3e;
+            line-height: 1.3;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        h1 small {
+            font-size: 0.7rem;
+            background: #eef2fa;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-weight: normal;
+            color: #1e466e;
+            margin-top: 6px;
+        }
+
+        .sub {
+            border-left: 3px solid #2c7da0;
+            padding-left: 12px;
+            color: #2c5a74;
+            margin: 8px 0 20px 0;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Parâmetros em grid 1 coluna no mobile */
+        .param-panel {
+            background: #f6faff;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #dee9f0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .param-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .param-group label {
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #1f5e7c;
+            letter-spacing: 0.3px;
+        }
+
+        .param-group input {
+            padding: 12px 14px;
+            border: 1px solid #cbdde6;
+            border-radius: 20px;
+            font-size: 1rem;
+            background: white;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .cost-breakdown {
+            background: #fefcf5;
+            border-radius: 20px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            border: 1px solid #f0e5cf;
+        }
+
+        .cost-breakdown h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #a1662f;
+        }
+
+        .inline-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 8px 0 6px;
+        }
+
+        .badge-info {
+            background: #e9ecef;
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Cards empilhados verticalmente */
+        .resumo-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2edf2;
+        }
+
+        .card .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #6b8aa8;
+            letter-spacing: 0.5px;
+        }
+
+        .card .value {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #1d4e6e;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+
+        .win {
+            color: #2b7a4b;
+            background: #e0f2e9;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        .loss {
+            color: #b13e3e;
+            background: #ffe6e5;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 40px;
+        }
+
+        /* Tabela com scroll horizontal (essencial mobile) */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 1px solid #e2edf2;
+            margin: 16px 0 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+            min-width: 800px;
+        }
+
+        th {
+            background: #f1f6fa;
+            padding: 12px 6px;
+            font-weight: 700;
+            color: #1c4c6e;
+            border-bottom: 1px solid #d4e2ea;
+            text-align: right;
+        }
+
+        th:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: #f1f6fa;
+            z-index: 2;
+        }
+
+        td {
+            padding: 10px 6px;
+            border-bottom: 1px solid #e9f0f4;
+            text-align: right;
+        }
+
+        td:first-child {
+            text-align: left;
+            font-weight: 600;
+            background: white;
+            position: sticky;
+            left: 0;
+            border-right: 1px solid #e2edf2;
+            z-index: 1;
+        }
+
+        .btn-detalhe {
+            background: #2c7da0;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .btn-detalhe:active {
+            background: #1a5e7c;
+            transform: scale(0.97);
+        }
+
+        /* Modal adaptado para mobile */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            padding: 12px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 98%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 18px 14px 22px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.2s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e2edf2;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.2rem;
+            color: #1d4e6e;
+        }
+
+        .close-modal {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .modal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+        }
+
+        .modal-table th,
+        .modal-table td {
+            padding: 8px 4px;
+            border: 1px solid #dee6ec;
+            text-align: right;
+        }
+
+        .modal-table th:first-child,
+        .modal-table td:first-child {
+            text-align: left;
+        }
+
+        .footer-note {
+            background: #e7f0fa;
+            padding: 12px 14px;
+            border-radius: 18px;
+            font-size: 0.7rem;
+            margin-top: 20px;
+            color: #1e5a7a;
+        }
+
+        button {
+            background: #2c7da0;
+            border: none;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .reset-btn {
+            background: #4a627a;
+            margin-top: 6px;
+        }
+
+        .reset-btn:active {
+            background: #2c4c6e;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ajuste para o botão de restaurar ficar dentro do painel */
+        .param-panel .reset-full {
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <h1>
+        📊 Plano Negócio vs CDB
+        <small>Mobile · Custos detalhados</small>
+    </h1>
+    <div class="sub">
+        🔎 Ajuste os parâmetros e veja se o negócio supera o CDB. Toque em "Detalhar Mês" em cada ano.
+    </div>
+
+    <div class="param-panel">
+        <div class="param-group"><label>💰 Investimento inicial (R$)</label><input type="number" id="invest" value="120000" step="5000"></div>
+        <div class="param-group"><label>📆 Despesas Fixas MENSAIS (R$)</label><input type="number" id="fixasMensais" value="3000" step="100"></div>
+        <div class="param-group"><label>📈 Custos Variáveis (% fat)</label><input type="number" id="percVariavel" value="10" step="1"></div>
+        <div class="param-group"><label>👨‍💼 Pró-labore mensal (R$)</label><input type="number" id="prolaboreMensal" value="10000" step="200"></div>
+        <div class="param-group"><label>🎯 Faturamento médio mensal (R$)</label><input type="number" id="fatMensal" value="23500" step="1000"></div>
+        <div class="param-group"><label>📈 Crescimento anual (%)</label><input type="number" id="crescimento" value="7" step="1"></div>
+        <div class="param-group"><label>🏦 Reserva Retorno (% lucro)</label><input type="number" id="reservaPerc" value="50" step="5"></div>
+        <button id="resetButtonMobile" class="reset-btn" style="margin-top: 6px;">↺ Restaurar padrões (10% custos)</button>
+    </div>
+
+    <div class="cost-breakdown">
+        <h3>🧩 Composição atual</h3>
+        <div class="inline-badges">
+            <div class="badge-info">🔹 Custos Variáveis: <strong id="variavelPercentShow">10%</strong></div>
+            <div class="badge-info">🏠 Desp. Fixas: <strong id="fixasValorShow">R$ 3.000</strong>/mês</div>
+            <div class="badge-info">🧑‍💼 Pró-labore: <strong id="prolabShow">R$ 10.000</strong>/mês</div>
+        </div>
+        <div style="font-size: 0.7rem; margin-top: 6px;">
+            ✅ Custos Variáveis: matéria-prima, fretes, comissões. Despesas Fixas: aluguel, funcionários, internet.
+        </div>
+    </div>
+
+    <div class="resumo-cards" id="cardsResumo"></div>
+
+    <div class="table-wrapper">
+        <table id="tabelaAnos">
+            <thead>
+                <tr><th>Ano</th><th>Faturamento</th><th>Custos Variáveis</th><th>Desp. Fixas</th><th>Pró-labore</th><th>Lucro Líquido</th><th>Reserva</th><th>Retorno Acum.</th><th>Patrimônio</th><th>CDB 105%</th><th>Diferença</th><th>Ação</th></tr>
+            </thead>
+            <tbody id="tabelaBody"></tbody>
+        </table>
+    </div>
+    <div class="footer-note">
+        📌 Toque em "Detalhar Mês a Mês" para ver todos os meses daquele ano.<br>
+        💡 CDB 105% CDI: taxa bruta 14,238% a.a., IR 15% sobre ganho.
+    </div>
+</div>
+
+<!-- Modal Popup -->
+<div id="modalMensal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitulo">Mensal - Ano</h3>
+            <button class="close-modal" id="closeModalBtn">&times;</button>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="modal-table" id="modalTable">
+                <thead>
+                    <tr><th>Mês</th><th>Faturamento</th><th>Custos Var.</th><th>Desp. Fixas</th><th>Pró-labore</th><th>Lucro Mensal</th><th>Lucro Acum.</th></tr>
+                </thead>
+                <tbody id="modalTableBody"></tbody>
+            </table>
+        </div>
+        <div style="margin-top: 16px; text-align: right;">
+            <button id="fecharModalBtn" style="background:#4a627a; width: auto; padding: 8px 20px;">Fechar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ======================== FUNÇÕES =========================
+    function getParams() {
+        let investimento = parseFloat(document.getElementById('invest').value);
+        let despesasFixasMensal = parseFloat(document.getElementById('fixasMensais').value);
+        let percVariavel = parseFloat(document.getElementById('percVariavel').value);
+        let proLaboreMensal = parseFloat(document.getElementById('prolaboreMensal').value);
+        let fatMensalBase = parseFloat(document.getElementById('fatMensal').value);
+        let crescimento = parseFloat(document.getElementById('crescimento').value) / 100;
+        let reservaPerc = parseFloat(document.getElementById('reservaPerc').value);
+
+        if (isNaN(investimento)) investimento = 120000;
+        if (isNaN(despesasFixasMensal)) despesasFixasMensal = 3000;
+        if (isNaN(percVariavel)) percVariavel = 10;
+        if (isNaN(proLaboreMensal)) proLaboreMensal = 10000;
+        if (isNaN(fatMensalBase)) fatMensalBase = 23500;
+        if (isNaN(crescimento)) crescimento = 0.07;
+        if (isNaN(reservaPerc)) reservaPerc = 50;
+        return { investimento, despesasFixasMensal, percVariavel, proLaboreMensal, fatMensalBase, crescimento, reservaPerc };
+    }
+
+    function updateLabels() {
+        let perc = document.getElementById('percVariavel').value;
+        let fixas = document.getElementById('fixasMensais').value;
+        let pro = document.getElementById('prolaboreMensal').value;
+        document.getElementById('variavelPercentShow').innerText = perc + "%";
+        document.getElementById('fixasValorShow').innerHTML = `R$ ${Number(fixas).toLocaleString('pt-BR')}`;
+        document.getElementById('prolabShow').innerHTML = `R$ ${Number(pro).toLocaleString('pt-BR')}`;
+    }
+
+    function calcularCDBLiquido(investimento, anos) {
+        const taxaBrutaAnual = 0.14238;
+        const montanteBruto = investimento * Math.pow(1 + taxaBrutaAnual, anos);
+        const ganho = montanteBruto - investimento;
+        const ir = ganho * 0.15;
+        return montanteBruto - ir;
+    }
+
+    function getCDBByYear(invest, ano) {
+        return calcularCDBLiquido(invest, ano);
+    }
+
+    function getMensalDataForYear(ano, params) {
+        const { percVariavel, despesasFixasMensal, proLaboreMensal, fatMensalBase, crescimento } = params;
+        const percVarDecimal = percVariavel / 100;
+        let fatMensalInicio = fatMensalBase * Math.pow(1 + crescimento, ano - 1);
+        let meses = [];
+        let lucroAcumulado = 0;
+        for (let mes = 1; mes <= 12; mes++) {
+            let faturamentoMes = fatMensalInicio;
+            let custosVarMes = faturamentoMes * percVarDecimal;
+            let lucroMes = faturamentoMes - custosVarMes - despesasFixasMensal - proLaboreMensal;
+            lucroAcumulado += lucroMes;
+            meses.push({
+                mes,
+                faturamento: faturamentoMes,
+                custosVariaveis: custosVarMes,
+                despesasFixas: despesasFixasMensal,
+                proLabore: proLaboreMensal,
+                lucroMes: lucroMes,
+                lucroAcumulado: lucroAcumulado
+            });
+        }
+        return meses;
+    }
+
+    function simularNegocioDetalhado(params) {
+        const { investimento, despesasFixasMensal, percVariavel, proLaboreMensal, fatMensalBase, crescimento, reservaPerc } = params;
+        let anos = 5;
+        let resultados = [];
+        let retornoAcumulado = 0;
+        let faturamentoMensalCorrente = fatMensalBase;
+        const percVarDecimal = percVariavel / 100;
+
+        for (let ano = 1; ano <= anos; ano++) {
+            let faturamentoAnual = faturamentoMensalCorrente * 12;
+            let custosVariaveisAnual = faturamentoAnual * percVarDecimal;
+            let despesasFixasAnual = despesasFixasMensal * 12;
+            let proLaboreAnual = proLaboreMensal * 12;
+            let lucroLiquidoAno = faturamentoAnual - custosVariaveisAnual - despesasFixasAnual - proLaboreAnual;
+            let reservaRetornoAno = 0;
+            if (lucroLiquidoAno > 0) reservaRetornoAno = lucroLiquidoAno * (reservaPerc / 100);
+            retornoAcumulado += reservaRetornoAno;
+            let patrimonioFinal = investimento + retornoAcumulado;
+            let cdbAcumulado = getCDBByYear(investimento, ano);
+            let diferenca = patrimonioFinal - cdbAcumulado;
+
+            resultados.push({
+                ano,
+                faturamentoAnual,
+                custosVariaveisAnual,
+                despesasFixasAnual,
+                proLaboreAnual,
+                lucroLiquidoAno,
+                reservaRetornoAno,
+                retornoAcumulado,
+                patrimonioFinal,
+                cdbAcumulado,
+                diferenca
+            });
+            faturamentoMensalCorrente = faturamentoMensalCorrente * (1 + crescimento);
+        }
+        return resultados;
+    }
+
+    function formatMoney(value) {
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 }).format(value);
+    }
+
+    function createCell(text, align = 'right') {
+        const td = document.createElement('td');
+        td.textContent = text;
+        td.style.textAlign = align;
+        return td;
+    }
+
+    let currentModalYear = 1;
+    function abrirModalMensal(ano) {
+        currentModalYear = ano;
+        const params = getParams();
+        const mesesData = getMensalDataForYear(ano, params);
+        const modal = document.getElementById('modalMensal');
+        document.getElementById('modalTitulo').innerHTML = `📅 Detalhamento Mensal - Ano ${ano}`;
+        const tbodyModal = document.getElementById('modalTableBody');
+        tbodyModal.innerHTML = '';
+        mesesData.forEach(m => {
+            const row = document.createElement('tr');
+            row.appendChild(createModalCell(`Mês ${m.mes}`, 'left'));
+            row.appendChild(createModalCell(formatMoney(m.faturamento), 'right'));
+            row.appendChild(createModalCell(formatMoney(m.custosVariaveis), 'right'));
+            row.appendChild(createModalCell(formatMoney(m.despesasFixas), 'right'));
+            row.appendChild(createModalCell(formatMoney(m.proLabore), 'right'));
+            const lucroCell = createModalCell(formatMoney(m.lucroMes), 'right');
+            lucroCell.style.color = m.lucroMes >= 0 ? '#2b7a4b' : '#b13e3e';
+            row.appendChild(lucroCell);
+            const acumCell = createModalCell(formatMoney(m.lucroAcumulado), 'right');
+            acumCell.style.fontWeight = 'bold';
+            acumCell.style.color = m.lucroAcumulado >= 0 ? '#1d4e6e' : '#b13e3e';
+            row.appendChild(acumCell);
+            tbodyModal.appendChild(row);
+        });
+        // total linha
+        const totalLucro = mesesData.reduce((acc, m) => acc + m.lucroMes, 0);
+        const rowTotal = document.createElement('tr');
+        rowTotal.style.backgroundColor = '#f1f6fa';
+        rowTotal.style.fontWeight = 'bold';
+        rowTotal.appendChild(createModalCell('✅ TOTAL ANO', 'left'));
+        rowTotal.appendChild(createModalCell(formatMoney(mesesData.reduce((a,b)=>a+b.faturamento,0)), 'right'));
+        rowTotal.appendChild(createModalCell(formatMoney(mesesData.reduce((a,b)=>a+b.custosVariaveis,0)), 'right'));
+        rowTotal.appendChild(createModalCell(formatMoney(mesesData.reduce((a,b)=>a+b.despesasFixas,0)), 'right'));
+        rowTotal.appendChild(createModalCell(formatMoney(mesesData.reduce((a,b)=>a+b.proLabore,0)), 'right'));
+        const totalCell = createModalCell(formatMoney(totalLucro), 'right');
+        totalCell.style.color = totalLucro >= 0 ? '#2b7a4b' : '#b13e3e';
+        rowTotal.appendChild(totalCell);
+        rowTotal.appendChild(createModalCell(formatMoney(totalLucro), 'right'));
+        tbodyModal.appendChild(rowTotal);
+        modal.style.display = 'flex';
+    }
+
+    function createModalCell(text, align) {
+        const td = document.createElement('td');
+        td.textContent = text;
+        td.style.textAlign = align;
+        return td;
+    }
+
+    function fecharModal() {
+        document.getElementById('modalMensal').style.display = 'none';
+    }
+
+    function atualizarTudo() {
+        updateLabels();
+        const params = getParams();
+        const dados = simularNegocioDetalhado(params);
+        const ultimo = dados[dados.length - 1];
+        const invest = params.investimento;
+
+        const cardsDiv = document.getElementById('cardsResumo');
+        const supera = ultimo.patrimonioFinal > ultimo.cdbAcumulado;
+        cardsDiv.innerHTML = `
+            <div class="card"><div class="label">📈 Patrimônio Negócio (5 anos)</div><div class="value">${formatMoney(ultimo.patrimonioFinal)}</div><div>Ganho: ${formatMoney(ultimo.patrimonioFinal - invest)}</div></div>
+            <div class="card"><div class="label">🏦 CDB 105% (5 anos)</div><div class="value">${formatMoney(ultimo.cdbAcumulado)}</div><div>Ganho: ${formatMoney(ultimo.cdbAcumulado - invest)}</div></div>
+            <div class="card"><div class="label">⚖️ Diferença (Negócio - CDB)</div><div class="value ${supera ? 'win' : 'loss'}">${formatMoney(ultimo.diferenca)}</div><div>${supera ? '✅ Negócio melhor' : '⚠️ CDB melhor'}</div></div>
+            <div class="card"><div class="label">💰 Retorno Acumulado (reserva)</div><div class="value">${formatMoney(ultimo.retornoAcumulado)}</div><div>${((ultimo.retornoAcumulado/invest)*100).toFixed(1)}% do investimento</div></div>
+        `;
+
+        const tbody = document.getElementById('tabelaBody');
+        tbody.innerHTML = '';
+        dados.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.appendChild(createCell(row.ano.toString(), 'center'));
+            tr.appendChild(createCell(formatMoney(row.faturamentoAnual), 'right'));
+            tr.appendChild(createCell(formatMoney(row.custosVariaveisAnual), 'right'));
+            tr.appendChild(createCell(formatMoney(row.despesasFixasAnual), 'right'));
+            tr.appendChild(createCell(formatMoney(row.proLaboreAnual), 'right'));
+            const lucroCell = createCell(formatMoney(row.lucroLiquidoAno), 'right');
+            lucroCell.style.color = row.lucroLiquidoAno >= 0 ? '#2b7a4b' : '#b13e3e';
+            tr.appendChild(lucroCell);
+            tr.appendChild(createCell(formatMoney(row.reservaRetornoAno), 'right'));
+            tr.appendChild(createCell(formatMoney(row.retornoAcumulado), 'right'));
+            tr.appendChild(createCell(formatMoney(row.patrimonioFinal), 'right'));
+            tr.appendChild(createCell(formatMoney(row.cdbAcumulado), 'right'));
+            const diffCell = createCell(formatMoney(row.diferenca), 'right');
+            diffCell.style.fontWeight = 'bold';
+            diffCell.style.color = row.diferenca >= 0 ? '#2b7a4b' : '#b13e3e';
+            tr.appendChild(diffCell);
+            const tdBtn = document.createElement('td');
+            tdBtn.style.textAlign = 'center';
+            const btn = document.createElement('button');
+            btn.textContent = '📆 Detalhar Mês';
+            btn.className = 'btn-detalhe';
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                abrirModalMensal(row.ano);
+            });
+            tdBtn.appendChild(btn);
+            tr.appendChild(tdBtn);
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Eventos e inicialização mobile
+    const inputs = ['invest', 'fixasMensais', 'percVariavel', 'prolaboreMensal', 'fatMensal', 'crescimento', 'reservaPerc'];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => atualizarTudo());
+            el.addEventListener('change', () => atualizarTudo());
+        }
+    });
+
+    const resetBtn = document.getElementById('resetButtonMobile');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            document.getElementById('invest').value = '120000';
+            document.getElementById('fixasMensais').value = '3000';
+            document.getElementById('percVariavel').value = '10';
+            document.getElementById('prolaboreMensal').value = '10000';
+            document.getElementById('fatMensal').value = '23500';
+            document.getElementById('crescimento').value = '7';
+            document.getElementById('reservaPerc').value = '50';
+            atualizarTudo();
+        });
+    }
+
+    const modal = document.getElementById('modalMensal');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const closeBtn2 = document.getElementById('fecharModalBtn');
+    closeBtn.onclick = fecharModal;
+    closeBtn2.onclick = fecharModal;
+    window.onclick = (e) => { if (e.target === modal) fecharModal(); };
+
+    atualizarTudo();
+</script>
+</body>
+</html>
