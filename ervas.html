@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌿 Catálogo de Ervas Daninhas</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #1b5e20;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+    text-align: center;
+    color: #2e7d32;
+    margin-bottom: 40px;
+    font-size: 1.1em;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #f0f0f0;
+}
+
+.card-content {
+    padding: 18px;
+}
+
+.card h2 {
+    color: #1b5e20;
+    margin-bottom: 8px;
+    font-size: 1.4em;
+}
+
+.cientifico {
+    color: #666;
+    font-style: italic;
+    font-size: 0.85em;
+    margin-bottom: 12px;
+    border-left: 3px solid #4caf50;
+    padding-left: 8px;
+}
+
+.card p {
+    color: #444;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.caracteristica {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.note {
+    background: #fff3e0;
+    border-left: 4px solid #ff9800;
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+}
+
+.note a {
+    color: #2e7d32;
+}
+
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+    color: #1b5e20;
+    font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 1.8em; }
+    .grid { gap: 15px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>🌿 Catálogo de Ervas Daninhas</h1>
+    <div class="subtitle">🌱 Plantas espontâneas comuns em gramados e jardins</div>
+
+    <div class="note">
+        📸 <strong>Nota sobre as imagens:</strong> As imagens abaixo são ilustrativas (via LoremFlick). 
+        Para usar fotos reais, <strong>baixe as imagens localmente</strong> ou use um serviço de hospedagem própria.
+        <a href="#" onclick="alert('Dica: Salve as fotos no seu computador e substitua os links pelas imagens locais!')">💡 Ver dica</a>
+    </div>
+
+    <div class="grid">
+
+        <!-- 1. Trevo -->
+        <div class="card">
+            <img src="https://picsum.photos/id/104/400/250" alt="Trevo - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🍀 Trevo-branco</h2>
+                <div class="cientifico">Trifolium repens</div>
+                <p>Folhas trifoliadas características. Flores brancas ou rosadas em formato de bola.</p>
+                <span class="caracteristica">Atrai abelhas</span>
+                <span class="caracteristica">Fixador de nitrogênio</span>
+            </div>
+        </div>
+
+        <!-- 2. Tiririca -->
+        <div class="card">
+            <img src="https://picsum.photos/id/108/400/250" alt="Tiririca - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🌾 Tiririca</h2>
+                <div class="cientifico">Cyperus rotundus</div>
+                <p>Parece grama mas cresce mais rápido. Caule triangular e pequenos bulbos subterrâneos.</p>
+                <span class="caracteristica">Difícil de eliminar</span>
+                <span class="caracteristica">Planta invasora agressiva</span>
+            </div>
+        </div>
+
+        <!-- 3. Dente-de-leão -->
+        <div class="card">
+            <img src="https://picsum.photos/id/96/400/250" alt="Dente-de-leão - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🌼 Dente-de-leão</h2>
+                <div class="cientifico">Taraxacum officinale</div>
+                <p>Flor amarela vibrante que se transforma em "bola de sementes" voadoras.</p>
+                <span class="caracteristica">Comestível</span>
+                <span class="caracteristica">Propagação pelo vento</span>
+            </div>
+        </div>
+
+        <!-- 4. Capim-colchão -->
+        <div class="card">
+            <img src="https://picsum.photos/id/127/400/250" alt="Capim-colchão - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🌿 Capim-colchão</h2>
+                <div class="cientifico">Digitaria sanguinalis</div>
+                <p>Cresce rasteiro formando uma "estrela". Folhas largas e macias.</p>
+                <span class="caracteristica">Crescimento rasteiro</span>
+                <span class="caracteristica">Comum em gramados</span>
+            </div>
+        </div>
+
+        <!-- 5. Azedinha -->
+        <div class="card">
+            <img src="https://picsum.photos/id/30/400/250" alt="Azedinha - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🍋 Azedinha</h2>
+                <div class="cientifico">Oxalis stricta</div>
+                <p>Folhas parecidas com trevo, flores amarelas pequenas. Sabor azedo.</p>
+                <span class="caracteristica">Sabor cítrico</span>
+                <span class="caracteristica">Floresce o ano todo</span>
+            </div>
+        </div>
+
+        <!-- 6. Picão-preto -->
+        <div class="card">
+            <img src="https://picsum.photos/id/117/400/250" alt="Picão-preto - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🪢 Picão-preto</h2>
+                <div class="cientifico">Bidens pilosa</div>
+                <p>Flores brancas com centro amarelo. Sementes pretas que grudam na roupa.</p>
+                <span class="caracteristica">Sementes pegajosas</span>
+                <span class="caracteristica">Planta medicinal</span>
+            </div>
+        </div>
+
+        <!-- 7. Caruru -->
+        <div class="card">
+            <img src="https://picsum.photos/id/67/400/250" alt="Caruru - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🥬 Caruru</h2>
+                <div class="cientifico">Amaranthus viridis</div>
+                <p>Folhas verdes em formato de espinho. Planta comestível rica em nutrientes.</p>
+                <span class="caracteristica">Folhas nutritivas</span>
+                <span class="caracteristica">Crescimento rápido</span>
+            </div>
+        </div>
+
+        <!-- 8. Quebra-pedra -->
+        <div class="card">
+            <img src="https://picsum.photos/id/13/400/250" alt="Quebra-pedra - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🪨 Quebra-pedra</h2>
+                <div class="cientifico">Phyllanthus niruri</div>
+                <p>Planta pequena com folhas que se fecham ao toque. Usada para problemas renais.</p>
+                <span class="caracteristica">Planta medicinal</span>
+                <span class="caracteristica">Folhas sensíveis</span>
+            </div>
+        </div>
+
+        <!-- 9. Serralha -->
+        <div class="card">
+            <img src="https://picsum.photos/id/92/400/250" alt="Serralha - imagem ilustrativa">
+            <div class="card-content">
+                <h2>🌻 Serralha</h2>
+                <div class="cientifico">Sonchus oleraceus</div>
+                <p>Parece um dente-de-leão maior. Látex branco no caule e folhas serrilhadas.</p>
+                <span class="caracteristica">Látex branco</span>
+                <span class="caracteristica">Folhas comestíveis</span>
+            </div>
+        </div>
+
+        <!-- 10. Beldroega -->
+        <div class="card">
+            <img src="https://picsum.photos/id/15/400/250" alt="Beldroega - imagem ilustrativa">
+            <div class="card-content">
+                <h2>💧 Beldroega</h2>
+                <div class="cientifico">Portulaca oleracea</div>
+                <p>Suculenta com caules avermelhados. Folhas carnudas e flores amarelas.</p>
+                <span class="caracteristica">Rica em ômega-3</span>
+                <span class="caracteristica">Resiste à seca</span>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        🌿 Catálogo de plantas espontâneas | Imagens: Picsum (placeholder) | 
+        <a href="#" onclick="alert('Para usar fotos reais: 1) Baixe as imagens no seu PC 2) Substitua os links por: \\'imagens/nome_da_foto.jpg\\' 3) Coloque as fotos na pasta \\'imagens\\'')">📸 Como adicionar fotos reais?</a>
+    </footer>
+</div>
+</body>
+</html>
