@@ -2,112 +2,110 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Catálogo de Ervas Daninhas em Gramado</title>
+<title>Catálogo de Ervas Daninhas</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f4f7f4;
-        margin: 0;
-        padding: 20px;
-    }
-    h1 {
-        text-align: center;
-        color: #2e7d32;
-    }
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-    }
-    .card {
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        overflow: hidden;
-        transition: transform 0.2s;
-    }
-    .card:hover {
-        transform: scale(1.03);
-    }
-    .card img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-    }
-    .card-content {
-        padding: 15px;
-    }
-    .card h2 {
-        margin: 0;
-        color: #388e3c;
-        font-size: 18px;
-    }
-    .card p {
-        font-size: 14px;
-        margin: 5px 0;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background: #eef5ee;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    color: #2e7d32;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: scale(1.02);
+}
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+.card-content {
+    padding: 12px;
+}
+.card h2 {
+    margin: 0 0 8px 0;
+    color: #2e7d32;
+}
+.card p {
+    margin: 0;
+    color: #333;
+}
 </style>
 </head>
 <body>
 
-<h1>🌱 Catálogo de Ervas Daninhas em Gramado</h1>
+<h1>🌱 Ervas Daninhas em Gramado</h1>
 
 <div class="grid">
 
-    <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/White_clover_trifolium_repens.jpg">
-        <div class="card-content">
-            <h2>Trevo</h2>
-            <p><strong>Nome:</strong> Trifolium spp.</p>
-            <p>Folhas em formato de três partes. Indica solo pobre em nutrientes.</p>
-        </div>
-    </div>
+<!-- Trevo (Trifolium repens) -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Trifolium_repens_-_white_clover.jpg/640px-Trifolium_repens_-_white_clover.jpg" alt="Trevo">
+<div class="card-content">
+<h2>Trevo</h2>
+<p>Folhas em 3 partes (tipo 🍀). Flores brancas ou rosadas.</p>
+</div>
+</div>
 
-    <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Cyperus_rotundus.jpg">
-        <div class="card-content">
-            <h2>Tiririca</h2>
-            <p><strong>Nome:</strong> Cyperus rotundus</p>
-            <p>Parece grama, mas cresce mais rápido. Possui raízes com tubérculos.</p>
-        </div>
-    </div>
+<!-- Tiririca (Cyperus rotundus) -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Cyperus_rotundus.jpg/640px-Cyperus_rotundus.jpg" alt="Tiririca">
+<div class="card-content">
+<h2>Tiririca</h2>
+<p>Parece grama, mas cresce mais rápido e tem caule triangular.</p>
+</div>
+</div>
 
-    <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Taraxacum_officinale_flower.jpg">
-        <div class="card-content">
-            <h2>Dente-de-leão</h2>
-            <p><strong>Nome:</strong> Taraxacum officinale</p>
-            <p>Flor amarela que vira uma bola de sementes ao vento.</p>
-        </div>
-    </div>
+<!-- Dente-de-leão (Taraxacum officinale) -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Taraxacum_officinale_-_Köhler–s_Medizinal-Pflanzen-133.jpg/640px-Taraxacum_officinale_-_Köhler–s_Medizinal-Pflanzen-133.jpg" alt="Dente-de-leão">
+<div class="card-content">
+<h2>Dente-de-leão</h2>
+<p>Flor amarela que vira "bola de sementes" levadas pelo vento.</p>
+</div>
+</div>
 
-    <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Digitaria_sanguinalis.jpg">
-        <div class="card-content">
-            <h2>Capim-colchão</h2>
-            <p><strong>Nome:</strong> Digitaria spp.</p>
-            <p>Crescimento rasteiro formando uma espécie de estrela.</p>
-        </div>
-    </div>
+<!-- Capim-colchão (Digitaria sanguinalis) -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Digitaria_sanguinalis.jpg/640px-Digitaria_sanguinalis.jpg" alt="Capim-colchão">
+<div class="card-content">
+<h2>Capim-colchão</h2>
+<p>Cresce rasteiro formando uma estrela. Muito comum em gramados.</p>
+</div>
+</div>
 
-    <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Oxalis_stricta_flower.jpg">
-        <div class="card-content">
-            <h2>Azedinha</h2>
-            <p><strong>Nome:</strong> Oxalis spp.</p>
-            <p>Parecida com trevo, com flores pequenas amarelas.</p>
-        </div>
-    </div>
+<!-- Azedinha / Trevo-azedo (Oxalis stricta) -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Oxalis_stricta_flower.jpg/640px-Oxalis_stricta_flower.jpg" alt="Azedinha">
+<div class="card-content">
+<h2>Azedinha</h2>
+<p>Folhas parecidas com trevo, flores amarelas pequenas. Sabor azedo.</p>
+</div>
+</div>
 
-    <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Bidens_pilosa.jpg">
-        <div class="card-content">
-            <h2>Picão-preto</h2>
-            <p><strong>Nome:</strong> Bidens pilosa</p>
-            <p>Produz sementes que grudam na roupa e nos animais.</p>
-        </div>
-    </div>
+<!-- Picão-preto (Bidens pilosa) - imagem alternativa confiável -->
+<div class="card">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Bidens_pilosa_flower_2400px.jpg/640px-Bidens_pilosa_flower_2400px.jpg" alt="Picão-preto">
+<div class="card-content">
+<h2>Picão-preto</h2>
+<p>Flores brancas com centro amarelo. Sementes pretas que grudam na roupa.</p>
+</div>
+</div>
 
 </div>
 
