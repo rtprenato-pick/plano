@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador CDC - Banco do Brasil (CONTRATO COMPLETO 106 PARCELAS)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .validado {
+            background: #27ae60;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 10px;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .panel h2 {
+            color: #1e3c72;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            border-left: 4px solid #2a5298;
+            padding-left: 12px;
+        }
+        
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        
+        .form-group { margin-bottom: 15px; }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        button {
+            background: #2a5298;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        
+        button:hover { background: #1e3c72; transform: translateY(-1px); }
+        .btn-secondary { background: #27ae60; }
+        .btn-secondary:hover { background: #219a52; }
+        .btn-compare { background: #8e44ad; }
+        .btn-compare:hover { background: #6c3483; }
+        .btn-outline { background: white; border: 1px solid #2a5298; color: #2a5298; }
+        .btn-outline:hover { background: #2a5298; color: white; }
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        .btn-group button { flex: 1; min-width: 120px; }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .summary-card h4 { font-size: 0.8rem; color: #666; margin-bottom: 8px; }
+        .summary-card .value { font-size: 1.3rem; font-weight: 700; color: #1e3c72; }
+        .summary-card .value.saldo { color: #e74c3c; }
+        .summary-card .value.parcela { color: #27ae60; }
+        .summary-card .value.economia { color: #8e44ad; }
+        
+        .scrollable-table {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+        
+        th {
+            background: #1e3c72;
+            color: white;
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+        
+        td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #eee;
+            text-align: right;
+        }
+        
+        td:first-child, th:first-child { text-align: center; }
+        td:first-child { font-weight: 600; }
+        
+        tr:hover { background: #f5f5f5; }
+        .pago-row { background: #e8f5e9 !important; }
+        .amortizacao-row { background: #fff3e0 !important; }
+        .best-row { background: #e8f5e9 !important; font-weight: bold; }
+        
+        .comparacao-table-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .comparacao-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+        
+        .comparacao-table th {
+            background: #34495e;
+            position: sticky;
+            top: 0;
+        }
+        
+        .comparacao-table td { text-align: center; }
+        .comparacao-table td:first-child { font-weight: 700; background: #f8f9fa; }
+        
+        .info-text { font-size: 0.75rem; color: #666; margin-top: 8px; }
+        .chart-container { height: 300px; margin-top: 15px; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 0.75rem; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 95%;
+            width: 1300px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+        
+        .comparacao-resumo {
+            background: #2a5298;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 900px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🏦 Simulador CDC - Banco do Brasil <span class="validado">✓ CONTRATO COMPLETO 106 PARCELAS</span></h1>
+        <p>Taxa real: 1,5% a.m. (confirmada pelo app e IRPF) | Parcela fixa: R$ 1.765,63 | out/2023 a jul/2032</p>
+    </div>
+
+    <!-- Validação -->
+    <div class="panel">
+        <h2>📋 Dados do Contrato</h2>
+        <div class="grid-4">
+            <div class="summary-card"><h4>Valor Financiado</h4><div class="value">R$ 92.866,20</div></div>
+            <div class="summary-card"><h4>Taxa Mensal</h4><div class="value parcela">1,50% a.m.</div></div>
+            <div class="summary-card"><h4>Total Parcelas</h4><div class="value">106</div></div>
+            <div class="summary-card"><h4>Período</h4><div class="value">out/2023 a jul/2032</div></div>
+        </div>
+    </div>
+
+    <!-- Simulação -->
+    <div class="panel">
+        <h2>⚙️ Simular Amortização Extra</h2>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Mês da Amortização</label>
+                <input type="month" id="amortizacaoMes" value="2026-05">
+                <div class="info-text">A amortização será aplicada na parcela deste mês</div>
+            </div>
+            <div class="form-group">
+                <label>Valor da Amortização (R$)</label>
+                <input type="number" id="amortizacaoValor" value="35000" step="5000">
+            </div>
+        </div>
+        <div class="btn-group">
+            <button id="btnAplicarAmortizacao">💰 Simular Amortização</button>
+            <button id="btnLimparAmortizacao" class="btn-outline">🗑️ Limpar (original)</button>
+            <button id="btnComparar" class="btn-compare">📊 Comparar valores (5k a 45k)</button>
+        </div>
+    </div>
+
+    <!-- Resumo -->
+    <div class="panel">
+        <h2>📈 Resumo do Cenário</h2>
+        <div class="grid-3">
+            <div class="summary-card"><h4>Saldo antes amortização</h4><div class="value saldo" id="resumoSaldoAntes">-</div></div>
+            <div class="summary-card"><h4>Saldo após amortização</h4><div class="value saldo" id="resumoSaldoDepois">-</div></div>
+            <div class="summary-card"><h4>Parcelas restantes</h4><div class="value" id="resumoParcelas">0</div></div>
+            <div class="summary-card"><h4>Última parcela</h4><div class="value" id="resumoUltimaParcela">-</div></div>
+            <div class="summary-card"><h4>Data da Quitação</h4><div class="value" id="resumoDataFinal">-</div></div>
+            <div class="summary-card"><h4>💰 Economia</h4><div class="value economia" id="resumoEconomia">-</div></div>
+        </div>
+    </div>
+
+    <!-- Gráfico -->
+    <div class="panel">
+        <h2>📉 Evolução do Saldo Devedor</h2>
+        <div class="chart-container">
+            <canvas id="graficoSaldo"></canvas>
+        </div>
+    </div>
+
+    <!-- Tabela Completa -->
+    <div class="panel">
+        <h2>📋 Cronograma Completo (out/2023 a jul/2032)</h2>
+        <div class="info-text">🟢 Verde = parcelas já pagas (1 a 24) | 🟡 Amarelo = mês da amortização extra</div>
+        <div class="scrollable-table">
+            <table id="tabelaCronograma">
+                <thead>
+                    <tr><th>Parcela</th><th>Data</th><th>Saldo Inicial</th><th>Parcela</th><th>Juros</th><th>Amortização</th><th>Amort. Extra</th><th>Saldo Final</th><th>Status</th></tr>
+                </thead>
+                <tbody id="corpoTabela"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        ✅ Taxa real: 1,50% a.m. | Prazo: 106 parcelas (out/2023 a jul/2032) | Parcela fixa: R$ 1.765,63
+    </div>
+</div>
+
+<!-- Modal Comparação -->
+<div id="modalComparacao" class="modal">
+    <div class="modal-content">
+        <h3>📊 Comparativo de Amortizações (5k a 45k)</h3>
+        <div class="comparacao-table-wrapper">
+            <table class="comparacao-table">
+                <thead><tr><th>Amortização</th><th>Saldo após amort.</th><th>Parcelas rest.</th><th>Última parcela</th><th>Quitação</th><th>💰 Economia</th></tr></thead>
+                <tbody id="corpoComparacao"></tbody>
+            </table>
+        </div>
+        <div class="comparacao-resumo" id="comparacaoResumo"></div>
+        <div class="modal-buttons">
+            <button id="btnFecharModal" class="btn-outline">Fechar</button>
+            <button id="btnExportarComparacao" class="btn-secondary">📥 Exportar CSV</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==================== DADOS CORRETOS ====================
+    const parcelaFixa = 1765.63;
+    const taxaMensal = 0.015; // 1,5% a.m.
+    const valorFinanciado = 92866.20;
+    const totalParcelas = 106;
+    const dataInicio = new Date(2023, 9, 1); // 01/10/2023
+    
+    let grafico = null;
+    let cronogramaCompleto = [];
+    let cronogramaOriginal = [];
+    
+    function formatarReal(valor) {
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+    }
+    
+    function formatarData(data) {
+        return data.toLocaleDateString('pt-BR');
+    }
+    
+    function adicionarMeses(data, meses) {
+        const nova = new Date(data);
+        nova.setMonth(nova.getMonth() + meses);
+        return nova;
+    }
+    
+    // Calcular cronograma completo (parcelas 1 a 106)
+    function calcularCronogramaCompleto(valorAmortizacao, mesAmortizacao) {
+        let saldoAtual = valorFinanciado;
+        let dataAtual = new Date(dataInicio);
+        let parcelaNum = 1;
+        let parcelaAtual = parcelaFixa;
+        
+        const cronograma = [];
+        let amortizacaoAplicada = false;
+        
+        let amortAno = null, amortMes = null;
+        if (mesAmortizacao && valorAmortizacao > 0) {
+            const [ano, mes] = mesAmortizacao.split('-');
+            amortAno = parseInt(ano);
+            amortMes = parseInt(mes) - 1;
+        }
+        
+        while (saldoAtual > 0.01 && parcelaNum <= 200) {
+            let amortExtra = 0;
+            
+            const isMesAmortizacao = !amortizacaoAplicada && 
+                amortAno !== null && 
+                dataAtual.getFullYear() === amortAno && 
+                dataAtual.getMonth() === amortMes;
+            
+            if (isMesAmortizacao && valorAmortizacao > 0) {
+                amortExtra = valorAmortizacao;
+                amortizacaoAplicada = true;
+            }
+            
+            const juros = saldoAtual * taxaMensal;
+            let amortNormal = parcelaAtual - juros;
+            if (amortNormal < 0) amortNormal = 0;
+            if (amortNormal > saldoAtual) amortNormal = saldoAtual;
+            
+            let saldoAposNormal = saldoAtual - amortNormal;
+            if (saldoAposNormal < 0) saldoAposNormal = 0;
+            
+            let amortExtraRealizada = 0;
+            let saldoFinal = saldoAposNormal;
+            
+            if (amortExtra > 0 && saldoFinal > 0) {
+                amortExtraRealizada = Math.min(amortExtra, saldoFinal);
+                saldoFinal -= amortExtraRealizada;
+                if (saldoFinal < 0) saldoFinal = 0;
+            }
+            
+            const status = parcelaNum <= 24 ? '✅ Pago' : (amortExtraRealizada > 0 ? '💰 Amortização' : 'A vencer');
+            
+            cronograma.push({
+                parcela: parcelaNum,
+                data: new Date(dataAtual),
+                saldoInicial: saldoAtual,
+                parcelaValor: parcelaAtual,
+                juros: juros,
+                amortizacaoNormal: amortNormal,
+                amortizacaoExtra: amortExtraRealizada,
+                saldoFinal: saldoFinal,
+                status: status
+            });
+            
+            saldoAtual = saldoFinal;
+            dataAtual = adicionarMeses(dataAtual, 1);
+            parcelaNum++;
+            
+            if (saldoAtual > 0 && saldoAtual < parcelaAtual) {
+                const ultimosJuros = saldoAtual * taxaMensal;
+                const ultimaParcela = saldoAtual + ultimosJuros;
+                cronograma.push({
+                    parcela: parcelaNum,
+                    data: new Date(dataAtual),
+                    saldoInicial: saldoAtual,
+                    parcelaValor: ultimaParcela,
+                    juros: ultimosJuros,
+                    amortizacaoNormal: saldoAtual,
+                    amortizacaoExtra: 0,
+                    saldoFinal: 0,
+                    status: 'Última'
+                });
+                break;
+            }
+            
+            if (parcelaNum > totalParcelas + 10) break;
+        }
+        return cronograma;
+    }
+    
+    function getResumo(cronograma, valorAmortizacao) {
+        if (!cronograma || cronograma.length === 0) return null;
+        const ultima = cronograma[cronograma.length - 1];
+        const totalParcelas = cronograma.reduce((sum, p) => sum + p.parcelaValor, 0);
+        const totalPago = valorAmortizacao + totalParcelas;
+        return {
+            saldoFinal: ultima.saldoFinal,
+            parcelasRestantes: cronograma.filter(p => p.status !== '✅ Pago').length,
+            ultimaParcelaValor: ultima.parcelaValor,
+            dataFinal: ultima.data,
+            totalParcelas: totalParcelas,
+            totalPago: totalPago
+        };
+    }
+    
+    function atualizarCenario() {
+        const mesAmort = document.getElementById('amortizacaoMes').value;
+        const valorAmort = parseFloat(document.getElementById('amortizacaoValor').value) || 0;
+        
+        cronogramaCompleto = calcularCronogramaCompleto(valorAmort, mesAmort);
+        const resumo = getResumo(cronogramaCompleto, valorAmort);
+        
+        cronogramaOriginal = calcularCronogramaCompleto(0, null);
+        const resumoOriginal = getResumo(cronogramaOriginal, 0);
+        const economia = resumoOriginal.totalPago - resumo.totalPago;
+        
+        // Saldo na data da amortização
+        let saldoAntes = null;
+        if (valorAmort > 0 && mesAmort) {
+            const parcelaAmort = cronogramaCompleto.find(p => p.amortizacaoExtra > 0);
+            saldoAntes = parcelaAmort ? parcelaAmort.saldoInicial : null;
+        }
+        
+        document.getElementById('resumoSaldoAntes').textContent = saldoAntes ? formatarReal(saldoAntes) : '-';
+        
+        const parcelaAmort = cronogramaCompleto.find(p => p.amortizacaoExtra > 0);
+        const saldoAposAmort = parcelaAmort ? parcelaAmort.saldoFinal : resumo.saldoFinal;
+        document.getElementById('resumoSaldoDepois').textContent = formatarReal(saldoAposAmort);
+        document.getElementById('resumoParcelas').textContent = resumo.parcelasRestantes;
+        document.getElementById('resumoUltimaParcela').textContent = formatarReal(resumo.ultimaParcelaValor);
+        document.getElementById('resumoDataFinal').textContent = formatarData(resumo.dataFinal);
+        document.getElementById('resumoEconomia').textContent = formatarReal(economia > 0 ? economia : 0);
+        
+        atualizarTabela();
+        atualizarGrafico();
+    }
+    
+    function atualizarTabela() {
+        const corpo = document.getElementById('corpoTabela');
+        corpo.innerHTML = '';
+        
+        cronogramaCompleto.forEach(item => {
+            const linha = document.createElement('tr');
+            if (item.status === '✅ Pago') linha.classList.add('pago-row');
+            if (item.amortizacaoExtra > 0) linha.classList.add('amortizacao-row');
+            
+            linha.innerHTML = `
+                <td style="text-align:center">${item.parcela}</td>
+                <td style="text-align:center">${formatarData(item.data)}</td>
+                <td style="text-align:right">${formatarReal(item.saldoInicial)}</td>
+                <td style="text-align:right">${formatarReal(item.parcelaValor)}</td>
+                <td style="text-align:right">${formatarReal(item.juros)}</td>
+                <td style="text-align:right">${formatarReal(item.amortizacaoNormal)}</td>
+                <td style="text-align:right; ${item.amortizacaoExtra > 0 ? 'background:#fff3e0; font-weight:bold;' : ''}">${item.amortizacaoExtra > 0 ? formatarReal(item.amortizacaoExtra) : '-'}</td>
+                <td style="text-align:right">${formatarReal(item.saldoFinal)}</td>
+                <td style="text-align:center">${item.status}</td>
+            `;
+            corpo.appendChild(linha);
+        });
+    }
+    
+    function atualizarGrafico() {
+        const ctx = document.getElementById('graficoSaldo').getContext('2d');
+        
+        const labels = cronogramaCompleto.map(item => `${item.parcela}`);
+        const saldos = cronogramaCompleto.map(item => item.saldoFinal);
+        const saldosOriginal = cronogramaOriginal.map(item => item.saldoFinal);
+        const pontosAmort = cronogramaCompleto.map(item => item.amortizacaoExtra > 0 ? item.saldoFinal : null);
+        
+        if (grafico) grafico.destroy();
+        grafico = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    { label: 'Saldo Devedor (COM amortização)', data: saldos, borderColor: '#27ae60', backgroundColor: 'rgba(39,174,96,0.1)', borderWidth: 2, fill: true, tension: 0.3, pointRadius: 0 },
+                    { label: 'Saldo Devedor (SEM amortização)', data: saldosOriginal, borderColor: '#e74c3c', backgroundColor: 'rgba(231,76,60,0.05)', borderWidth: 2, borderDash: [5, 5], fill: false, tension: 0.3, pointRadius: 0 },
+                    { label: 'Amortização Extra', data: pontosAmort, type: 'scatter', backgroundColor: '#f39c12', borderColor: '#f39c12', pointRadius: 6, pointHoverRadius: 10 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { tooltip: { callbacks: { label: (ctx) => formatarReal(ctx.raw) } } },
+                scales: { y: { beginAtZero: true, ticks: { callback: (val) => formatarReal(val) } } }
+            }
+        });
+    }
+    
+    function gerarComparativo() {
+        const mesAmort = document.getElementById('amortizacaoMes').value;
+        const valores = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
+        const resumoOriginal = getResumo(calcularCronogramaCompleto(0, null), 0);
+        const resultados = [];
+        
+        for (const valor of valores) {
+            const cronograma = calcularCronogramaCompleto(valor, mesAmort);
+            const resumo = getResumo(cronograma, valor);
+            const economia = resumoOriginal.totalPago - resumo.totalPago;
+            const parcelaAmort = cronograma.find(p => p.amortizacaoExtra > 0);
+            const saldoAposAmort = parcelaAmort ? parcelaAmort.saldoFinal : resumo.saldoFinal;
+            resultados.push({ valor, saldoAposAmort, parcelasRestantes: resumo.parcelasRestantes, ultimaParcela: resumo.ultimaParcelaValor, dataFinal: resumo.dataFinal, economia: economia > 0 ? economia : 0 });
+        }
+        
+        let melhorEconomia = Math.max(...resultados.map(r => r.economia));
+        const corpo = document.getElementById('corpoComparacao');
+        corpo.innerHTML = '';
+        
+        const linhaSem = document.createElement('tr');
+        linhaSem.style.background = '#f0f0f0';
+        linhaSem.innerHTML = `<td style="font-weight:bold;">SEM AMORTIZAÇÃO</td><td>-</td><td>${resumoOriginal.parcelasRestantes}</td><td>${formatarReal(resumoOriginal.ultimaParcelaValor)}</td><td>${formatarData(resumoOriginal.dataFinal)}</td><td>-</td>`;
+        corpo.appendChild(linhaSem);
+        
+        resultados.forEach(r => {
+            const linha = document.createElement('tr');
+            if (r.economia === melhorEconomia && melhorEconomia > 0) linha.classList.add('best-row');
+            linha.innerHTML = `<td style="font-weight:bold;">${formatarReal(r.valor)}</td><td>${formatarReal(r.saldoAposAmort)}</td><td>${r.parcelasRestantes}</td><td>${formatarReal(r.ultimaParcela)}</td><td>${formatarData(r.dataFinal)}</td><td style="color:#27ae60;font-weight:bold;">${formatarReal(r.economia)}</td>`;
+            corpo.appendChild(linha);
+        });
+        
+        const melhor = resultados.find(r => r.economia === melhorEconomia);
+        if (melhor) {
+            document.getElementById('comparacaoResumo').innerHTML = `<h4>📌 Melhor cenário: ${formatarReal(melhor.valor)}</h4><span>💰 Economia: ${formatarReal(melhor.economia)}</span> | ⏱️ Quitação: ${formatarData(melhor.dataFinal)} | 📦 Parcelas: ${melhor.parcelasRestantes}`;
+        }
+    }
+    
+    function mostrarComparacao() { gerarComparativo(); document.getElementById('modalComparacao').style.display = 'flex'; }
+    function fecharModal() { document.getElementById('modalComparacao').style.display = 'none'; }
+    
+    function exportarCSV() {
+        const mesAmort = document.getElementById('amortizacaoMes').value;
+        const valores = [0, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
+        let csv = 'Amortização,Saldo após amortização,Parcelas Restantes,Última Parcela,Data Quitação,Economia\n';
+        
+        for (const valor of valores) {
+            const cronograma = calcularCronogramaCompleto(valor, mesAmort);
+            const resumo = getResumo(cronograma, valor);
+            const resumoOrig = getResumo(calcularCronogramaCompleto(0, null), 0);
+            const economia = resumoOrig.totalPago - resumo.totalPago;
+            const parcelaAmort = cronograma.find(p => p.amortizacaoExtra > 0);
+            const saldoAposAmort = parcelaAmort ? parcelaAmort.saldoFinal : resumo.saldoFinal;
+            const nomeValor = valor === 0 ? 'SEM AMORTIZAÇÃO' : `R$ ${valor.toLocaleString('pt-BR')}`;
+            csv += `${nomeValor},${saldoAposAmort.toFixed(2)},${resumo.parcelasRestantes},${resumo.ultimaParcelaValor.toFixed(2)},${formatarData(resumo.dataFinal)},${economia.toFixed(2)}\n`;
+        }
+        
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `cronograma_completo_106_parcelas_${new Date().toISOString().slice(0,10)}.csv`;
+        link.click();
+    }
+    
+    document.getElementById('btnAplicarAmortizacao').addEventListener('click', atualizarCenario);
+    document.getElementById('btnLimparAmortizacao').addEventListener('click', () => { 
+        document.getElementById('amortizacaoValor').value = 0; 
+        atualizarCenario(); 
+    });
+    document.getElementById('btnComparar').addEventListener('click', mostrarComparacao);
+    document.getElementById('btnFecharModal').addEventListener('click', fecharModal);
+    document.getElementById('btnExportarComparacao').addEventListener('click', exportarCSV);
+    document.getElementById('modalComparacao').addEventListener('click', (e) => { if (e.target === document.getElementById('modalComparacao')) fecharModal(); });
+    
+    // Inicializar
+    document.getElementById('amortizacaoValor').value = 0;
+    atualizarCenario();
+</script>
+</body>
+</html>
