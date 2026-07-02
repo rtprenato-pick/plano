@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O que é o Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #FAFAF7;
+    --paper-line: #DEDACE;
+    --ink: #1C1D1F;
+    --ink-soft: #55534C;
+    --muted: #8A8778;
+    --blue: #3B5BA5;
+    --rust: #C65D3B;
+    --rust-soft: #F1E3DA;
+    --blue-soft: #E4E9F3;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--rust-soft); color:var(--rust); }
+
+  a { color:var(--blue); }
+
+  .wrap{
+    max-width: 920px;
+    margin:0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- Eyebrow / labels ---------- */
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--muted);
+    display:inline-block;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    padding: 28px 0 0;
+  }
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--paper-line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .topbar .mark{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .mark svg{ display:block; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 70px 0 60px;
+    position:relative;
+  }
+  .hero .eyebrow{ margin-bottom: 22px; }
+  h1{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size: clamp(40px, 6vw, 68px);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+    margin:0 0 26px;
+    max-width: 14ch;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--rust);
+  }
+  .hero-lede{
+    font-size:19px;
+    color:var(--ink-soft);
+    max-width:52ch;
+    margin:0 0 8px;
+  }
+  .hero-note{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    margin-top:34px;
+  }
+
+  /* ---------- Thread signature element ---------- */
+  .thread{
+    margin: 8px 0 0;
+    border:1px solid var(--paper-line);
+    background: #fff;
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .thread-row{
+    display:grid;
+    grid-template-columns: 108px 1fr;
+    border-bottom:1px solid var(--paper-line);
+  }
+  .thread-row:last-child{ border-bottom:none; }
+  .thread-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    padding:18px 14px 18px 22px;
+    border-right:1px solid var(--paper-line);
+  }
+  .thread-body{
+    padding:18px 22px;
+    font-size:15px;
+  }
+  .thread-row.you .thread-label{ color:var(--blue); }
+  .thread-row.claude .thread-label{ color:var(--rust); }
+  .thread-row.claude .thread-body{ background: #FDFBF8; }
+
+  .typing{
+    display:inline-flex;
+    gap:4px;
+    align-items:center;
+    vertical-align:middle;
+  }
+  .typing span{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--muted);
+    display:inline-block;
+    animation: bounce 1.1s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){ animation-delay:0.15s; }
+  .typing span:nth-child(3){ animation-delay:0.3s; }
+  @keyframes bounce{
+    0%, 60%, 100% { transform: translateY(0); opacity:0.5; }
+    30% { transform: translateY(-3px); opacity:1; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .typing span{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ---------- Section shell ---------- */
+  section{
+    padding: 64px 0;
+    border-top:1px solid var(--paper-line);
+  }
+  .section-head{
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    margin-bottom:36px;
+  }
+  .section-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:30px;
+    margin:10px 0 0;
+    letter-spacing:-0.01em;
+  }
+  .section-head .eyebrow{ align-self:start; margin-top:12px; }
+  .section-intro{
+    font-size:16.5px;
+    color:var(--ink-soft);
+    max-width:60ch;
+    margin: 0 0 0 0;
+  }
+  @media (max-width: 720px){
+    .section-head{ grid-template-columns: 1fr; gap:10px; }
+  }
+
+  /* ---------- Definition cards ---------- */
+  .def-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:1px;
+    background:var(--paper-line);
+    border:1px solid var(--paper-line);
+  }
+  .def-card{
+    background:var(--paper);
+    padding:26px 26px 24px;
+  }
+  .def-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:18px;
+    margin:0 0 10px;
+  }
+  .def-card p{
+    margin:0;
+    font-size:14.5px;
+    color:var(--ink-soft);
+  }
+  @media (max-width: 640px){
+    .def-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- How it works: annotated steps ---------- */
+  .steps{
+    counter-reset: step;
+    border-top:1px solid var(--paper-line);
+  }
+  .step{
+    display:grid;
+    grid-template-columns: 90px 1fr;
+    gap:24px;
+    padding:22px 0;
+    border-bottom:1px solid var(--paper-line);
+  }
+  .step-num{
+    counter-increment: step;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:26px;
+    color:var(--rust);
+  }
+  .step-num::before{
+    content: counter(step, decimal-leading-zero);
+  }
+  .step h4{
+    margin:0 0 6px;
+    font-size:16px;
+    font-weight:600;
+  }
+  .step p{
+    margin:0;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    max-width:58ch;
+  }
+
+  /* ---------- Capability index cards ---------- */
+  .cap-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:14px;
+  }
+  .cap{
+    border:1px solid var(--paper-line);
+    background:#fff;
+    padding:20px 18px;
+    border-radius:2px;
+    transition: border-color .18s ease, transform .18s ease;
+  }
+  .cap:hover{
+    border-color:var(--rust);
+    transform: translateY(-2px);
+  }
+  .cap .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+  .cap h4{
+    font-family:'Fraunces', serif;
+    font-size:17px;
+    font-weight:600;
+    margin:8px 0 8px;
+  }
+  .cap p{
+    margin:0;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  @media (max-width: 720px){
+    .cap-grid{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px){
+    .cap-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Products list ---------- */
+  .products{
+    display:flex;
+    flex-direction:column;
+  }
+  .product{
+    display:grid;
+    grid-template-columns: 200px 1fr;
+    gap:24px;
+    padding:20px 0;
+    border-bottom:1px solid var(--paper-line);
+    align-items:baseline;
+  }
+  .product:first-child{ border-top:1px solid var(--paper-line); }
+  .product .pname{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:17px;
+  }
+  .product .pdesc{
+    font-size:14.5px;
+    color:var(--ink-soft);
+  }
+  @media (max-width: 640px){
+    .product{ grid-template-columns: 1fr; gap:6px; }
+  }
+
+  /* ---------- Values / margin note ---------- */
+  .margin-note{
+    display:grid;
+    grid-template-columns: 1fr 260px;
+    gap:36px;
+  }
+  .margin-note .lead p{
+    font-size:16px;
+    color:var(--ink-soft);
+    margin:0 0 16px;
+  }
+  .callout{
+    border-left:2px solid var(--rust);
+    padding-left:18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    align-self:start;
+    line-height:1.7;
+  }
+  @media (max-width: 720px){
+    .margin-note{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding: 40px 0 60px;
+    border-top:1px solid var(--paper-line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--muted);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  footer a{ color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--muted); }
+  footer a:hover{ color:var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <div class="mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#C65D3B" stroke-width="1.3"/><path d="M8 4.5 L8 11.5 M4.8 6 L11.2 10 M11.2 6 L4.8 10" stroke="#C65D3B" stroke-width="1"/></svg>
+        anthropic / claude
+      </div>
+      <div>um guia em linguagem simples</div>
+    </div>
+  </header>
+
+  <section class="hero" style="border-top:none; padding-top:70px;">
+    <div class="eyebrow">o que é o claude</div>
+    <h1>Um assistente de <em>IA</em> que conversa, escreve e raciocina com você.</h1>
+    <p class="hero-lede">Claude é o modelo de inteligência artificial criado pela Anthropic. Ele lê o que você escreve, pensa sobre o pedido e responde em linguagem natural — seja para tirar uma dúvida, redigir um texto, revisar código ou organizar ideias.</p>
+
+    <div class="thread">
+      <div class="thread-row you">
+        <div class="thread-label">você</div>
+        <div class="thread-body">Pode me explicar o que você é, em uma frase?</div>
+      </div>
+      <div class="thread-row claude">
+        <div class="thread-label">claude</div>
+        <div class="thread-body">Sou um modelo de linguagem treinado pela Anthropic para ajudar em tarefas de leitura, escrita, análise e código <span class="typing"><span></span><span></span><span></span></span></div>
+      </div>
+    </div>
+    <p class="hero-note">Nenhuma resposta é mágica — é estatística de linguagem aplicada com muito cuidado no treinamento.</p>
+  </section>
+
+  <section id="definicao">
+    <div class="section-head">
+      <div class="eyebrow">definição</div>
+      <h2>Em termos simples, o que é o Claude?</h2>
+    </div>
+    <div class="def-grid">
+      <div class="def-card">
+        <h3>Um modelo de linguagem</h3>
+        <p>Claude foi treinado em uma grande quantidade de texto para aprender padrões de linguagem, raciocínio e conhecimento geral. A partir disso, ele prevê e gera respostas coerentes para o que você escreve.</p>
+      </div>
+      <div class="def-card">
+        <h3>Feito pela Anthropic</h3>
+        <p>A Anthropic é a empresa de segurança e pesquisa em IA que desenvolve o Claude, com foco declarado em construir sistemas de IA úteis, honestos e inofensivos.</p>
+      </div>
+      <div class="def-card">
+        <h3>Acessado por conversa</h3>
+        <p>Você interage com o Claude por meio de mensagens de texto — perguntas, instruções, arquivos — e ele responde no mesmo formato, podendo também gerar documentos, código e imagens vetoriais.</p>
+      </div>
+      <div class="def-card">
+        <h3>Não é uma pessoa</h3>
+        <p>Claude não tem memória permanente por padrão, não navega sozinho pelo mundo e não tem experiências fora da conversa. Ele responde com base no que está no diálogo e no que aprendeu no treinamento.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="funcionamento">
+    <div class="section-head">
+      <div class="eyebrow">como funciona</div>
+      <h2>Da sua pergunta até a resposta</h2>
+    </div>
+    <p class="section-intro">Por trás de uma resposta simples existe um processo com algumas etapas. Aqui está uma versão resumida:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h4>Você escreve uma mensagem</h4>
+          <p>Pode ser uma pergunta, um pedido, um arquivo anexado ou uma mistura de tudo isso.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h4>O modelo interpreta o pedido</h4>
+          <p>Claude analisa o texto, o contexto da conversa e, quando necessário, usa ferramentas — como busca na web ou execução de código — para reunir informações atualizadas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h4>Ele gera a resposta, parte por parte</h4>
+          <p>O texto é produzido de forma sequencial, prevendo a continuação mais adequada com base em tudo o que veio antes.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h4>Você recebe e pode continuar o diálogo</h4>
+          <p>A conversa é iterativa: você pode pedir ajustes, correções ou aprofundamento, e o Claude leva em conta o histórico da conversa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capacidades">
+    <div class="section-head">
+      <div class="eyebrow">capacidades</div>
+      <h2>O que dá para fazer com o Claude</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap">
+        <div class="tag">escrita</div>
+        <h4>Redigir e revisar</h4>
+        <p>Textos, e-mails, relatórios e ajustes de tom ou clareza.</p>
+      </div>
+      <div class="cap">
+        <div class="tag">código</div>
+        <h4>Programar</h4>
+        <p>Escrever, explicar e depurar código em diversas linguagens.</p>
+      </div>
+      <div class="cap">
+        <div class="tag">análise</div>
+        <h4>Interpretar dados</h4>
+        <p>Ler planilhas, PDFs e documentos, e resumir o que importa.</p>
+      </div>
+      <div class="cap">
+        <div class="tag">pesquisa</div>
+        <h4>Buscar informação</h4>
+        <p>Consultar a web para responder com dados atuais, quando necessário.</p>
+      </div>
+      <div class="cap">
+        <div class="tag">criação</div>
+        <h4>Gerar documentos</h4>
+        <p>Planilhas, apresentações, páginas como esta e outros arquivos.</p>
+      </div>
+      <div class="cap">
+        <div class="tag">raciocínio</div>
+        <h4>Pensar passo a passo</h4>
+        <p>Quebrar problemas complexos em etapas antes de responder.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="produtos">
+    <div class="section-head">
+      <div class="eyebrow">onde encontrar</div>
+      <h2>Formas de usar o Claude</h2>
+    </div>
+    <div class="products">
+      <div class="product">
+        <div class="pname">Claude.ai</div>
+        <div class="pdesc">A interface de chat oficial, disponível na web, no aplicativo e no computador — é onde a maioria das pessoas conversa com o Claude.</div>
+      </div>
+      <div class="product">
+        <div class="pname">API da Anthropic</div>
+        <div class="pdesc">Permite que desenvolvedores integrem o Claude a seus próprios produtos e fluxos de trabalho.</div>
+      </div>
+      <div class="product">
+        <div class="pname">Claude Code</div>
+        <div class="pdesc">Uma ferramenta agente para programação, usada pelo terminal ou por editores de código.</div>
+      </div>
+      <div class="product">
+        <div class="pname">Extensões e integrações</div>
+        <div class="pdesc">Versões do Claude voltadas a tarefas específicas, como navegação, planilhas e apresentações.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="valores">
+    <div class="section-head">
+      <div class="eyebrow">limites e cuidado</div>
+      <h2>O que vale lembrar</h2>
+    </div>
+    <div class="margin-note">
+      <div class="lead">
+        <p>Claude pode errar. Ele gera respostas com base em padrões estatísticos de linguagem, não em certeza absoluta — por isso é sempre bom conferir fatos importantes, especialmente em temas técnicos, médicos, legais ou financeiros.</p>
+        <p>A Anthropic descreve seu objetivo como construir IA que seja útil, honesta e segura, e investe em pesquisa de segurança para reduzir respostas prejudiciais ou enganosas.</p>
+      </div>
+      <div class="callout">
+        nota — este texto é uma explicação geral e educativa, não um material oficial da Anthropic.
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>página gerada como material explicativo</div>
+    <div><a href="https://www.anthropic.com" target="_blank" rel="noopener">anthropic.com</a></div>
+  </footer>
+</div>
+
+</body>
+</html>
